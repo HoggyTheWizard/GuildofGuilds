@@ -24,7 +24,7 @@ class eval_command(commands.Cog):
         local_variables = {
             "discord": discord,
             "commands": commands,
-            "bot": self.bot,
+            "self.bot": self.bot,
             "ctx": ctx,
             "channel": ctx.channel,
             "author": ctx.author,
