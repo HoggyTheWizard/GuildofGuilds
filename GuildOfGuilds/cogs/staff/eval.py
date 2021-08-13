@@ -46,7 +46,7 @@ class eval_command(commands.Cog):
                 result = f"{stdout.getvalue()}"
         except Exception as e:
             color = discord.Color.red()
-            result = "".join(format_exception(e, e, e.__traceback__))
+            result = "".join(format_exception(e, e, e.__traceback__)).replace(hoggy_irl_name, "Hoggy")
         embed = discord.Embed(title="Code Executed", description=f"```py\n{result}\n```", color=color)
         await ctx.send(embed=embed)
 
