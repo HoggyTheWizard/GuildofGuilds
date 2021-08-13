@@ -22,9 +22,9 @@ class BotUtilities(commands.Bot):
         if isinstance(exc, commands.CommandNotFound):
             return
 
-        #if isinstance(exc, commands.MissingRequiredArgument):
-        #    await ctx.send(f"Invalid Command Format: {ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}")
-        #    return
+        if isinstance(exc, commands.MissingRequiredArgument):
+            await ctx.send(f"Invalid Command Format: {ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}")
+            return
 
         log.error("", exc_info=exc)
 
