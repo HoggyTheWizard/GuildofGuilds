@@ -1,5 +1,5 @@
 from discord.ext import commands
-from GuildOfGuilds.utils.staff.staff_checks import dev_check
+from GuildOfGuilds.utils.staff.staff_checks import *
 from GuildOfGuilds.main import main_db
 from pathlib import Path
 from GuildOfGuilds.config import prefixes
@@ -20,58 +20,52 @@ class devtools(commands.Cog):
                            f"{prefixes[0]}reload folders - Displays a list of the bot's folders.")
 
     @reload.command()
+    @is_dev()
     async def all(self, ctx):
-        if dev_check(users, ctx.author.id) is False:
-            await ctx.send("This command is for developers only!")
-        else:
-            for ext in Path().glob("bot/cogs/*/*.py"):
-                try:
-                    self.bot.unload_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
-                except Exception:
-                    print(f"Could not load extension {ext}")
-            count = 0
-            for ext in Path().glob("bot/cogs/*/*.py"):
-                try:
-                    self.bot.load_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
-                    count += 1
-                except Exception:
-                    print(f"Could not load extension {ext}")
-            await ctx.send(f"Success! Files Reloaded: {count}")
+        for ext in Path().glob("bot/cogs/*/*.py"):
+            try:
+                self.bot.unload_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
+            except Exception:
+                print(f"Could not load extension {ext}")
+        count = 0
+        for ext in Path().glob("bot/cogs/*/*.py"):
+            try:
+                self.bot.load_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
+                count += 1
+            except Exception:
+                print(f"Could not load extension {ext}")
+        await ctx.send(f"Success! Files Reloaded: {count}")
 
     @reload.command()
+    @is_dev()
     async def folders(self, ctx):
-        if dev_check(users, ctx.author.id) is False:
-            await ctx.send("This command is for developers only!")
-        else:
-            string = "Folders:\n"
-            for folder in Path().glob(f"bot/cogs/*"):
-                try:
-                    folder_name = f"{list(folder.parts)[2]}\n"
-                    string += folder_name
-                except:
-                    print(f"{folder} was unable to be added to the string.")
-                    continue
-            await ctx.send(string)
+        string = "Folders:\n"
+        for folder in Path().glob(f"bot/cogs/*"):
+            try:
+                folder_name = f"{list(folder.parts)[2]}\n"
+                string += folder_name
+            except:
+                print(f"{folder} was unable to be added to the string.")
+                continue
+        await ctx.send(string)
 
     @reload.command()
+    @is_dev()
     async def folder(self, ctx, folder):
-        if dev_check(users, ctx.author.id) is False:
-            await ctx.send("This command is for developers only!")
-        else:
-            for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
-                try:
-                    self.bot.unload_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
-                except:
-                    print(f"Could not load extension {extension}")
+        for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
+            try:
+                self.bot.unload_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
+            except:
+                print(f"Could not load extension {extension}")
 
-            count = 0
-            for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
-                try:
-                    self.bot.load_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
-                    count += 1
-                except:
-                    print(f"Could not load extension {extension}")
-            await ctx.send(f"Success! Files Reloaded: {count}")
+        count = 0
+        for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
+            try:
+                self.bot.load_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
+                count += 1
+            except:
+                print(f"Could not load extension {extension}")
+        await ctx.send(f"Success! Files Reloaded: {count}")
 
 
 def setup(bot):
