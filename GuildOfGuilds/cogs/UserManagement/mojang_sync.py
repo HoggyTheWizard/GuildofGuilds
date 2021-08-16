@@ -21,7 +21,6 @@ class mojang_sync(commands.Cog):
                 print(f"**Error**: {e}")
                 continue
             if doc["id"] != mojang_data["username"]:
-                name = doc["username"]
                 mojang.update_one({"id": doc["id"]}, {"$set": {"username": mojang_data["name"]}})
                 print(f"Username Update: Successfully updated {doc['uuid']} ({doc['username']} -> {mojang_data['name']})")
 
