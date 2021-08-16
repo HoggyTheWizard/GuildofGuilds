@@ -8,3 +8,10 @@ def format_nickname(guild, username):
         return f"{username} [{suffix}]"
     else:
         return username
+
+
+def format_nickname_from_db(suffix, username):
+    if suffix is not None:
+        return f"{username} [{suffix}]"
+    else:
+        return username
