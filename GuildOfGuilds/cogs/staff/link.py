@@ -24,6 +24,14 @@ class link(commands.Cog):
                 print("Error")
                 await ctx.send(f"*Error**: {e}")
 
+    @commands.command()
+    async def unlink(self, ctx, member: discord.Member):
+        if dev_check(users, ctx.author.id) is True:
+            try:
+                users.delete_one({"id": ctx.author.id})
+            except Exception as e:
+                await ctx.send(f"*Error**: {e}")
+
 
 def setup(bot):
     bot.add_cog(link(bot))
