@@ -22,10 +22,8 @@ class link(commands.Cog):
                         f'https://api.hypixel.net/guild?key={hypixel_api_key}&player={mojang["id"]}').json()
         await ctx.send(format_nickname(guild, username))
 
-
     @commands.command()
     async def verify(self, ctx, username):
-        await ctx.send("triggered")
         if users.find_one({"id": ctx.author.id}):
             await ctx.send(
                 f"You're already verified to the account `{users.find_one({'id': ctx.author.id})['uuid']}`")
@@ -52,7 +50,7 @@ class link(commands.Cog):
                     users.insert_one({"id": ctx.author.id, "uuid": mojang['id']})
                     guild_data = requests.get(
                         f'https://api.hypixel.net/guild?key={hypixel_api_key}&player={mojang["id"]}').json()
-                    member = get_guild_member(guild_data, mojang["uuid"])
+                    member = get_guild_member(guild_data, mojang["id"])
                     if member is None:
                         await ctx.author.add_roles(ctx.guild.get_role(verified_role_id))
                         users.update_one({"id": ctx.author.id}, {"$set": {"guildPosition": None}})
