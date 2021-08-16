@@ -25,12 +25,26 @@ def is_dev():
     return commands.check(predicate)
 
 
+def is_admin():
+    def predicate(ctx):
+        user = users.find_one({"id": ctx.author.id})
+        if user is None:
+            raise StaffChecks(not_staff_error)
+        elif "isAdmin" not in user:
+            raise StaffChecks(not_staff_error)
+        elif user["isAdmin"] is False:
+            raise StaffChecks(not_staff_error)
+        else:
+            return True
+    return commands.check(predicate)
+
+
 def is_staff():
     def predicate(ctx):
         user = users.find_one({"id": ctx.author.id})
         if user is None:
             raise StaffChecks(not_staff_error)
-        elif "isDev" not in user:
+        elif "isStaff" not in user:
             raise StaffChecks(not_staff_error)
         elif user["isStaff"] is False:
             raise StaffChecks(not_staff_error)
