@@ -14,15 +14,6 @@ class link(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def test_format_function(self, ctx):
-        username = "HoggyTheWizard"
-        mojang = requests.get(
-            f'https://api.mojang.com/users/profiles/minecraft/{username}?').json()
-        guild = requests.get(
-                        f'https://api.hypixel.net/guild?key={hypixel_api_key}&player={mojang["id"]}').json()
-        await ctx.send(format_nickname(guild, username))
-
-    @commands.command()
     async def verify(self, ctx, username):
         if users.find_one({"id": ctx.author.id}):
             await ctx.send(
