@@ -5,6 +5,7 @@ from GuildOfGuilds.utils.UserManagement.guild import *
 from GuildOfGuilds.utils.UserManagement.user import *
 import discord
 import requests
+mojang_collection = main_db["mojang"]
 users = main_db["users_test"]
 verified_role_id = 686200195498770452
 
@@ -38,9 +39,20 @@ class link(commands.Cog):
     Linked Account: {player['player']['socialMedia']['links']['DISCORD']}")
                 elif str(ctx.message.author) == player["player"]["socialMedia"]["links"]["DISCORD"]:
                     await ctx.author.add_roles(ctx.guild.get_role(verified_role_id))
-                    users.insert_one({"id": ctx.author.id, "uuid": mojang['id']})
+                    users.insert_one({"id": ctx.author.id, "uuid": mojang["id"]})
                     guild_data = requests.get(
                         f'https://api.hypixel.net/guild?key={hypixel_api_key}&player={mojang["id"]}').json()
+                    if guild_data["guild"] is None:
+                        await ctx.send("Successfully verified! A guild couldn't be found for you, so you didn't get "
+                                       "any guild roles.")
+                        return
+
+                    try:
+                        tag = guild_data["guild"]["tag"]
+                    except:
+                        tag = None
+
+                    mojang_collection.insert_one({"uuid": mojang["id"], "username": mojang["name"], "tag": tag})
                     member = get_guild_member(guild_data, mojang["id"])
                     if member is None:
                         await ctx.author.add_roles(ctx.guild.get_role(verified_role_id))
