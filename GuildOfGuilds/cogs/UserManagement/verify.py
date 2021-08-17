@@ -3,6 +3,7 @@ from GuildOfGuilds.main import main_db
 from GuildOfGuilds.config import hypixel_api_key
 from GuildOfGuilds.utils.UserManagement.guild import *
 from GuildOfGuilds.utils.UserManagement.user import *
+from GuildOfGuilds.utils.staff.enabled import *
 import discord
 import requests
 mojang_collection = main_db["mojang"]
@@ -15,6 +16,7 @@ class link(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands_enabled()
     async def verify(self, ctx, username):
         if users.find_one({"id": ctx.author.id}):
             await ctx.send(
