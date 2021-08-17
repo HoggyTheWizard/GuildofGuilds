@@ -1,5 +1,6 @@
 from discord.ext import commands
 from GuildOfGuilds.utils.staff.staff_checks import *
+from GuildOfGuilds.utils.staff.enabled import *
 from GuildOfGuilds.main import main_db
 import discord
 import requests
@@ -11,6 +12,7 @@ class link(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands_enabled()
     @is_staff()
     async def link(self, ctx, member: discord.Member, username):
         try:
@@ -25,6 +27,7 @@ class link(commands.Cog):
             await ctx.send(f"*Error**: {e}")
 
     @commands.command()
+    @commands_enabled()
     @is_staff()
     async def unlink(self, ctx, member: discord.Member):
             try:
