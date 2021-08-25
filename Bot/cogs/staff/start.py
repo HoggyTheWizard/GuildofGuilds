@@ -24,7 +24,7 @@ class start(commands.Cog):
     @is_dev()
     async def all(self, ctx):
         count = 0
-        for ext in Path().glob("bot/cogs/*/*.py"):
+        for ext in Path().glob("Bot/cogs/*/*.py"):
             if ext.parts[2] == "Staff":
                 if ext.stem in blacklisted_files:
                     continue
@@ -40,7 +40,7 @@ class start(commands.Cog):
     @is_dev()
     async def folders(self, ctx):
         string = "Folders:\n"
-        for folder in Path().glob(f"bot/cogs/*"):
+        for folder in Path().glob(f"Bot/cogs/*"):
             try:
                 folder_name = f"{list(folder.parts)[2]}\n"
                 string += folder_name
@@ -53,7 +53,7 @@ class start(commands.Cog):
     @is_dev()
     async def folder(self, ctx, folder):
         count = 0
-        for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
+        for extension in Path().glob(f"Bot/cogs/{folder}/*.py"):
             if extension.parts[2] == "Staff":
                 if extension.stem in blacklisted_files:
                     continue

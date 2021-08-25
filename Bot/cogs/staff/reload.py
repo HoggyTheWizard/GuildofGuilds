@@ -22,13 +22,13 @@ class devtools(commands.Cog):
     @reload.command()
     @is_dev()
     async def all(self, ctx):
-        for ext in Path().glob("bot/cogs/*/*.py"):
+        for ext in Path().glob("Bot/cogs/*/*.py"):
             try:
                 self.bot.unload_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
             except Exception:
                 print(f"Could not load extension {ext}")
         count = 0
-        for ext in Path().glob("bot/cogs/*/*.py"):
+        for ext in Path().glob("Bot/cogs/*/*.py"):
             try:
                 self.bot.load_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
                 count += 1
@@ -40,7 +40,7 @@ class devtools(commands.Cog):
     @is_dev()
     async def folders(self, ctx):
         string = "Folders:\n"
-        for folder in Path().glob(f"bot/cogs/*"):
+        for folder in Path().glob(f"Bot/cogs/*"):
             try:
                 folder_name = f"{list(folder.parts)[2]}\n"
                 string += folder_name
@@ -52,14 +52,14 @@ class devtools(commands.Cog):
     @reload.command()
     @is_dev()
     async def folder(self, ctx, folder):
-        for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
+        for extension in Path().glob(f"Bot/cogs/{folder}/*.py"):
             try:
                 self.bot.unload_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
             except:
                 print(f"Could not load extension {extension}")
 
         count = 0
-        for extension in Path().glob(f"bot/cogs/{folder}/*.py"):
+        for extension in Path().glob(f"Bot/cogs/{folder}/*.py"):
             try:
                 self.bot.load_extension(".".join(part for part in extension.parts)[:-len(extension.suffix)])
                 count += 1
