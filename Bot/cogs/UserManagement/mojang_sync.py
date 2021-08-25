@@ -60,7 +60,7 @@ class mojang_sync(commands.Cog):
                 print(f"Tag Update: Successfully updated a tag for {doc['uuid']} ({doc['tag']} -> {guild['guild']['tag']})")
             else:
                 continue
-    print("Done!")
+    print("Finished Mojang Sync Task")
 
     @mojang_sync.before_loop
     async def before_printer(self):
